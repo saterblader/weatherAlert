@@ -1,5 +1,4 @@
 #! /usr/bin/tclsh
-lappend ::auto_path /Users/philipgeramian/Downloads/tcltls-1.7.22
 
 package require http 2
 package require tls 1.7
@@ -25,9 +24,10 @@ set currentTime [clock seconds]
 if {![file isdirectory alerts]} {
 	file mkdir alerts
 }
-if {[llength [glob -nocomplain alers/$ZONE.*]] >0} {
-set files [glob $ZONE.*]
+if {[llength [glob -nocomplain -directory alerts $ZONE.*]] >0} {
+set files [glob -directory alerts $ZONE.*]
 foreach _file $files {
+	puts $_file
 	set fd [open $_file r]
 	set filetime [read $fd]
 	set cmp ""
@@ -77,7 +77,7 @@ regexp {<id>[a-zA-z0-9:\/?=.]+\/[a-zA-z0-9:\/?=.]+\.([0-9a-f]+)<\/id>} $xml matc
 set id $ZONE.$id
 set summary ""
 regexp {<summary>([A-Za-z0-9.,_\s-]+)<\/summary>} $xml match summary
-if {![file exists $id]} {
+if {![file exists alerts/$id]} {
 set event ""
 set effective ""
 set expires ""
