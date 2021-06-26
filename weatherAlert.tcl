@@ -155,5 +155,7 @@ if { [string match [::http::status $r] "ok"] && [string match [::http::ncode $r]
 	}
 #Error getting webpage	
 } else {
-	puts "Error pulling NOAA data. Code [::http::ncode $r]"
+	if {!SILENT} {
+		puts "Error pulling NOAA data. Code [::http::ncode $r]"
+	}
 }
